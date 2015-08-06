@@ -33,7 +33,7 @@ import (
 
 const ()
 
-func Strptime(timestamp, format string) (t time.Time, err error) {
+func Strptime(format, timestamp string) (t time.Time, err error) {
 	c_timestamp := C.CString(timestamp)
 	c_format := C.CString(format)
 	defer func() {
@@ -57,7 +57,7 @@ func Strptime(timestamp, format string) (t time.Time, err error) {
 	return
 }
 
-func Strftime(t time.Time, format string) (timestamp string, err error) {
+func Strftime(format string, t time.Time) (timestamp string, err error) {
 	c_format := C.CString(format)
 	defer func() { C.free(unsafe.Pointer(c_format)) }()
 
