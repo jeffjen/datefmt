@@ -5,6 +5,7 @@ package datefmt
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define __USE_XOPEN
 #include <time.h>
 
 void ptime(const char* src, const char* fmt, struct tm* tm) {
