@@ -14,7 +14,7 @@ void parsetime(const char* src, const char* fmt, struct tm* tm) {
 char* formattime(const char* fmt, const struct tm* tm) {
 	const size_t size = 64;
 	char *timestamp;
-	if (timestamp = malloc(size * sizeof(char))) {
+	if ((timestamp = malloc(size * sizeof(char)))) {
 		strftime(timestamp, size, fmt, tm);
 		return timestamp;
 	} else {
