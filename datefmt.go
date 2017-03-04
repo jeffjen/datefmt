@@ -7,14 +7,14 @@ package datefmt
 #include <string.h>
 #include <time.h>
 
-void ptime(const char* src, const char* fmt, struct tm* tm) {
+void parsetime(const char* src, const char* fmt, struct tm* tm) {
 	strptime(src, fmt, tm);
 }
 
-char* ftime(const char* fmt, const struct tm* tm) {
+char* formattime(const char* fmt, const struct tm* tm) {
 	const size_t size = 64;
 	char *timestamp;
-	if (timestamp = malloc(size * sizeof(char))) {
+	if ((timestamp = malloc(size * sizeof(char)))) {
 		strftime(timestamp, size, fmt, tm);
 		return timestamp;
 	} else {
@@ -31,8 +31,6 @@ import (
 	"unsafe"
 )
 
-const ()
-
 func Strptime(format, timestamp string) (t time.Time, err error) {
 	c_timestamp := C.CString(timestamp)
 	c_format := C.CString(format)
@@ -41,7 +39,7 @@ func Strptime(format, timestamp string) (t time.Time, err error) {
 		C.free(unsafe.Pointer(c_format))
 	}()
 	var c_time C.struct_tm
-	if _, trr := C.ptime(c_timestamp, c_format, &c_time); trr != nil {
+	if _, trr := C.parsetime(c_timestamp, c_format, &c_time); trr != nil {
 		err = fmt.Errorf("%s - %s:%s", trr, timestamp, format)
 		return
 	}
@@ -76,7 +74,7 @@ func Strftime(format string, t time.Time) (timestamp string, err error) {
 		tm_zone:   c_tz,
 	}
 
-	c_timestamp, trr := C.ftime(c_format, &c_time)
+	c_timestamp, trr := C.formattime(c_format, &c_time)
 	defer func() { C.free(unsafe.Pointer(c_timestamp)) }()
 
 	timestamp = C.GoString(c_timestamp)
